@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ViaCepExample</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_error">Ocorreu algum problema!</string>
+    <string name="contact_name_ph">Contact name</string>
+    <string name="contact_action_ph">Contact Action</string>
+    <string name="name_ph">Name</string>
+    <string name="ok">OK</string>
+</resources>
