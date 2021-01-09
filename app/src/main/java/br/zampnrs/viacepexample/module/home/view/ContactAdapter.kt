@@ -12,7 +12,7 @@ class ContactAdapter(
         private var contactList: List<Contact> = emptyList()
 ): RecyclerView.Adapter<ContactViewHolder>() {
     var onSelectContact: ((contact: Contact) -> Unit)? = null
-    var onContactOptions: ((contact: Contact) -> Unit)? = null
+    var onOptionsOpen: ((contact: Contact) -> Unit)? = null
 
     override fun onCreateViewHolder(
             parent: ViewGroup,
@@ -38,7 +38,7 @@ class ContactAdapter(
                 }
 
                 itemView.more_imageView.setOnClickListener {
-                    onContactOptions?.invoke(this)
+                    onOptionsOpen?.invoke(this)
                 }
             }
         }

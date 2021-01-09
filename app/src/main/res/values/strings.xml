@@ -20,4 +20,7 @@
     <string name="city_ph">Cidade</string>
     <string name="uf_ph">UF</string>
     <string name="cancel">Voltar</string>
+    <string name="contact_options">Opções</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Apagar</string>
 </resources>

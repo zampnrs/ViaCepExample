@@ -40,6 +40,21 @@ fun ContactEntity.equalsTo(contact: Contact): Boolean {
             && this.uf == contact.uf)
 }
 
+fun Contact.mapToEntity(): ContactEntity {
+    return ContactEntity(
+            uuid = uuid,
+            name = name,
+            email = email,
+            phone = phone,
+            cep = cep,
+            street = street,
+            number = number,
+            complement = complement,
+            city = city,
+            uf = uf
+    )
+}
+
 fun Fragment.showToast(message: String) {
     Toast.makeText(
         requireContext(),
