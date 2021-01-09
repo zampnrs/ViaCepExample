@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.zampnrs.viacepexample.R
+import br.zampnrs.viacepexample.data.ContactEntity
 import br.zampnrs.viacepexample.databinding.FragmentListBinding
 import br.zampnrs.viacepexample.model.Contact
 import br.zampnrs.viacepexample.module.home.viewmodel.ContactViewModel
@@ -72,6 +73,7 @@ class ListFragment : Fragment() {
                             contactAdapter.apply {
                                 setList(fromDb.mapToContactClass())
                                 onSelectContact = ::onContactSelected
+                                onContactOptions = ::onOptions
                             }.also {
                                 binding.recyclerContacts.apply {
                                     adapter = it
@@ -83,7 +85,32 @@ class ListFragment : Fragment() {
 
                 is ContactViewModel.ViewState.LoadContactError ->
                     showToast(getString(R.string.load_error))
+
+                is ContactViewModel.ViewState.DeleteSuccess ->
+                    showToast(getString(R.string.delete_success))
+
+                is ContactViewModel.ViewState.DeleteError ->
+                    showToast(getString(R.string.delete_error))
             }
         })
+    }
+
+    private fun onOptions(contact: Contact) {
+        with(contact) {
+            viewModel.deleteContact(
+                ContactEntity(
+                    uuid = uuid,
+                    name = name,
+                    email = email,
+                    phone = phone,
+                    cep = cep,
+                    street = street,
+                    number = number,
+                    complement = complement,
+                    city = city,
+                    uf = uf
+                )
+            )
+        }
     }
 }

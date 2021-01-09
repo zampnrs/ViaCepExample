@@ -6,11 +6,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.zampnrs.viacepexample.R
 import br.zampnrs.viacepexample.model.Contact
+import kotlinx.android.synthetic.main.item_contact.view.*
 
 class ContactAdapter(
         private var contactList: List<Contact> = emptyList()
 ): RecyclerView.Adapter<ContactViewHolder>() {
     var onSelectContact: ((contact: Contact) -> Unit)? = null
+    var onContactOptions: ((contact: Contact) -> Unit)? = null
 
     override fun onCreateViewHolder(
             parent: ViewGroup,
@@ -30,8 +32,13 @@ class ContactAdapter(
         holder.apply {
             with(contactList[position]) {
                 bind(this)
-                itemView.setOnClickListener {
+
+                itemView.profile_name_textView.setOnClickListener {
                     onSelectContact?.invoke(this)
+                }
+
+                itemView.more_imageView.setOnClickListener {
+                    onContactOptions?.invoke(this)
                 }
             }
         }

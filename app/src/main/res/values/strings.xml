@@ -4,6 +4,8 @@
     <string name="load_error">Erro ao carregar contato</string>
     <string name="load_empty">Sem contatos a listar</string>
     <string name="insert_error">Erro ao inserrir contato</string>
+    <string name="delete_error">Erro ao apagar contato</string>
+    <string name="delete_success">Contato apagado com sucesso</string>
     <string name="contact_name_ph">Contact name</string>
     <string name="name_ph">Name</string>
     <string name="email_ph">E-mail</string>

@@ -26,6 +26,8 @@ class ContactViewModel(
         object LoadContactError: ViewState()
         object InsertSuccess: ViewState()
         object InsertError: ViewState()
+        object DeleteSuccess: ViewState()
+        object DeleteError: ViewState()
     }
 
     val mutableLiveData = MutableLiveData<ViewState>()
@@ -40,33 +42,35 @@ class ContactViewModel(
         }
     }
 
-    fun getContacts() = viewModelScope.launch {
+    fun getContacts() = Thread {
         try {
-            Thread {
-                contactDao.getAll().also {
-                    contactsFromDb = it
-                    mutableLiveData.postValue(ViewState.LoadContactSuccess)
-                }
-            }.start()
+            contactDao.getAll().also {
+                contactsFromDb = it
+                mutableLiveData.postValue(ViewState.LoadContactSuccess)
+            }
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "")
             mutableLiveData.postValue(ViewState.LoadContactError)
         }
-    }
+    }.start()
 
-    fun insertContact(contactEntity: ContactEntity) {
+    fun insertContact(contactEntity: ContactEntity) = Thread {
         try {
-            Thread {
-                contactDao.insertAll(contactEntity)
-                mutableLiveData.postValue(ViewState.InsertSuccess)
-            }.start()
+            contactDao.insertAll(contactEntity)
+            mutableLiveData.postValue(ViewState.InsertSuccess)
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "")
             mutableLiveData.postValue(ViewState.InsertError)
         }
-    }
+    }.start()
 
-    fun deleteContact(contactEntity: ContactEntity) {
-        contactDao.delete(contactEntity)
-    }
+    fun deleteContact(contactEntity: ContactEntity) = Thread {
+        try {
+            contactDao.delete(contactEntity)
+            mutableLiveData.postValue(ViewState.DeleteSuccess)
+        } catch (e: Exception) {
+            Log.e(TAG, e.message ?: "")
+            mutableLiveData.postValue(ViewState.DeleteError)
+        }
+    }.start()
 }
