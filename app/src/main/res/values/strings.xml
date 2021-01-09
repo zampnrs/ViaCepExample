@@ -5,7 +5,6 @@
     <string name="load_empty">Sem contatos a listar</string>
     <string name="insert_error">Erro ao inserrir contato</string>
     <string name="contact_name_ph">Contact name</string>
-    <string name="contact_action_ph">Contact Action</string>
     <string name="name_ph">Name</string>
     <string name="email_ph">E-mail</string>
     <string name="phone_ph">Phone</string>

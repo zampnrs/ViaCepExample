@@ -71,13 +71,13 @@ class ContactFragment : Fragment() {
                     }
                 }
                 is ContactViewModel.ViewState.LoadAddressError ->
-                    showToast(getString(R.string.load_error),true)
+                    showToast(getString(R.string.load_error))
                 is ContactViewModel.ViewState.InsertSuccess -> {
                     findNavController().popBackStack(R.id.listFragment, false)
-                    showToast(getString(R.string.contact_insert_success), true)
+                    showToast(getString(R.string.contact_insert_success))
                 }
                 is ContactViewModel.ViewState.InsertError ->
-                    showToast(getString(R.string.insert_error),true)
+                    showToast(getString(R.string.insert_error))
             }
         })
     }

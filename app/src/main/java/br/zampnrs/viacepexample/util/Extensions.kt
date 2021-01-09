@@ -28,18 +28,10 @@ fun ContactEntity.equalsTo(contact: Contact): Boolean {
             && this.phone == contact.phone)
 }
 
-fun BottomSheetDialogFragment.showToast(message: String, short: Boolean) {
+fun Fragment.showToast(message: String) {
     Toast.makeText(
         requireContext(),
         message,
-        if (short) Toast.LENGTH_SHORT else Toast.LENGTH_LONG
-    ).show()
-}
-
-fun Fragment.showToast(message: String, short: Boolean) {
-    Toast.makeText(
-        requireContext(),
-        message,
-        if (short) Toast.LENGTH_SHORT else Toast.LENGTH_LONG
+        Toast.LENGTH_LONG
     ).show()
 }

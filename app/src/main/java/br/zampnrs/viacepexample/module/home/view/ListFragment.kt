@@ -73,11 +73,11 @@ class ListFragment : Fragment() {
                                     layoutManager = LinearLayoutManager(requireContext())
                                 }
                             }
-                        } else showToast(getString(R.string.load_empty), false)
+                        } else showToast(getString(R.string.load_empty))
                     }
 
                 is ContactViewModel.ViewState.LoadContactError ->
-                    showToast(getString(R.string.load_error),true)
+                    showToast(getString(R.string.load_error))
             }
         })
     }
