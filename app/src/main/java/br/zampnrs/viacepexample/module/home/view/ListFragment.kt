@@ -112,5 +112,6 @@ class ListFragment : Fragment() {
                 )
             )
         }
+        viewModel.getContacts()
     }
 }
