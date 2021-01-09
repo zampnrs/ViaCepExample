@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">ViaCepExample</string>
     <string name="default_error">Ocorreu algum problema!</string>
+    <string name="load_error">Erro ao carregar contato</string>
+    <string name="load_empty">Sem contatos a listar</string>
+    <string name="insert_error">Erro ao inserrir contato</string>
     <string name="contact_name_ph">Contact name</string>
     <string name="contact_action_ph">Contact Action</string>
     <string name="name_ph">Name</string>
@@ -8,4 +11,5 @@
     <string name="phone_ph">Phone</string>
     <string name="ok">OK</string>
     <string name="field_required">Este campo é obrigatório</string>
+    <string name="contact_insert_success">Contato inserido com sucesso</string>
 </resources>

@@ -1,5 +1,6 @@
 package br.zampnrs.viacepexample.module.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,9 +16,16 @@ class ContactViewModel(
     private val contactDao: ContactDao
 ): ViewModel() {
 
+    private val TAG = "DB"
+    var contactsFromDb = emptyList<ContactEntity>()
+
     sealed class ViewState {
-        class Success(val address: CepResponse): ViewState()
-        object Error: ViewState()
+        class LoadAddressSuccess(val address: CepResponse): ViewState()
+        object LoadAddressError: ViewState()
+        object LoadContactSuccess : ViewState()
+        object LoadContactError: ViewState()
+        object InsertSuccess: ViewState()
+        object InsertError: ViewState()
     }
 
     val mutableLiveData = MutableLiveData<ViewState>()
@@ -25,23 +33,40 @@ class ContactViewModel(
     fun loadAddress(cep: String) = viewModelScope.launch {
         try {
             viaCepUseCase.loadAddress(cep).also {
-                mutableLiveData.postValue(ViewState.Success(it))
+                mutableLiveData.postValue(ViewState.LoadAddressSuccess(it))
             }
         } catch (e: Exception) {
-            mutableLiveData.postValue(ViewState.Error)
+            mutableLiveData.postValue(ViewState.LoadAddressError)
         }
     }
 
-    fun getContacts(): List<ContactEntity> {
-        return contactDao.getAll()
+    fun getContacts() = viewModelScope.launch {
+        try {
+            Thread {
+                contactDao.getAll().also {
+                    contactsFromDb = it
+                    mutableLiveData.postValue(ViewState.LoadContactSuccess)
+                }
+            }.start()
+        } catch (e: Exception) {
+            Log.e(TAG, e.message ?: "")
+            mutableLiveData.postValue(ViewState.LoadContactError)
+        }
     }
 
     fun insertContact(contactEntity: ContactEntity) {
-        contactDao.insertAll(contactEntity)
+        try {
+            Thread {
+                contactDao.insertAll(contactEntity)
+                mutableLiveData.postValue(ViewState.InsertSuccess)
+            }.start()
+        } catch (e: Exception) {
+            Log.e(TAG, e.message ?: "")
+            mutableLiveData.postValue(ViewState.InsertError)
+        }
     }
 
     fun deleteContact(contactEntity: ContactEntity) {
         contactDao.delete(contactEntity)
     }
-
 }
