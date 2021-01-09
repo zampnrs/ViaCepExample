@@ -22,6 +22,12 @@ class ListFragment : Fragment() {
     private val viewModel: ContactViewModel by viewModel()
     private val contactAdapter = ContactAdapter()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.getContacts()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,7 +40,6 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getContacts()
         binding.setUpAddContact()
         subscribeLiveData()
     }
