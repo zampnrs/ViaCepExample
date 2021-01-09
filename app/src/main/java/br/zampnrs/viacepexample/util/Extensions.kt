@@ -15,7 +15,13 @@ fun List<ContactEntity>.mapToContactClass(): List<Contact> {
                     uuid = contactEntity.uuid,
                     name = contactEntity.name,
                     email = contactEntity.email,
-                    phone = contactEntity.phone
+                    phone = contactEntity.phone,
+                    cep = contactEntity.cep,
+                    street = contactEntity.street,
+                    number = contactEntity.number,
+                    complement = contactEntity.complement,
+                    city = contactEntity.city,
+                    uf = contactEntity.uf
                 )
             )
         }
@@ -25,7 +31,13 @@ fun List<ContactEntity>.mapToContactClass(): List<Contact> {
 fun ContactEntity.equalsTo(contact: Contact): Boolean {
     return (this.name == contact.name
             && this.email == contact.email
-            && this.phone == contact.phone)
+            && this.phone == contact.phone
+            && this.cep == contact.cep
+            && this.street == contact.street
+            && this.number == contact.number
+            && this.complement == contact.complement
+            && this.city == contact.city
+            && this.uf == contact.uf)
 }
 
 fun Fragment.showToast(message: String) {

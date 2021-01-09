@@ -43,9 +43,9 @@ class ContactFragment : Fragment() {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (p0?.length == 8) {
+                    if (p0?.length == 8 && args.contact == null) {
                         binding.progressBar.visibility = View.VISIBLE
-                        viewModel.loadAddress(p0.toString())
+                         viewModel.loadAddress(p0.toString())
                     }
                 }
 
@@ -147,6 +147,12 @@ class ContactFragment : Fragment() {
             contactNameEditText.setText(name)
             contactEmailEditText.setText(email)
             contactPhoneEditText.setText(phone)
+            contactCepEditText.setText(cep)
+            contactStreetEditText.setText(street)
+            contactStreetNumberEditText.setText(number)
+            contactComplementEditText.setText(complement)
+            contactCityEditText.setText(city)
+            contactUfEditText.setText(uf)
         }
     }
 
@@ -159,7 +165,13 @@ class ContactFragment : Fragment() {
                 uuid = UUID.randomUUID().toString(),
                 name = contactNameEditText.text.toString(),
                 email = contactEmailEditText.text.toString(),
-                phone = contactPhoneEditText.text.toString()
+                phone = contactPhoneEditText.text.toString(),
+                cep = contactCepEditText.text.toString(),
+                street = contactStreetEditText.text.toString(),
+                number = contactStreetNumberEditText.text.toString(),
+                complement = contactComplementEditText.text.toString(),
+                city = contactCityEditText.text.toString(),
+                uf = contactUfEditText.text.toString()
             ).let { contactEntity ->
                 if (args.contact != null && contactEntity.equalsTo(args.contact!!))
                     findNavController().navigateUp()
