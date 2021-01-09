@@ -12,4 +12,11 @@
     <string name="ok">OK</string>
     <string name="field_required">Este campo é obrigatório</string>
     <string name="contact_insert_success">Contato inserido com sucesso</string>
+    <string name="cep_ph">CEP</string>
+    <string name="streetNumber_ph">Número</string>
+    <string name="complement_ph">Complemento (opcional)</string>
+    <string name="streetName_ph">Rua/Avenida</string>
+    <string name="city_ph">Cidade</string>
+    <string name="uf_ph">UF</string>
+    <string name="cancel">Voltar</string>
 </resources>

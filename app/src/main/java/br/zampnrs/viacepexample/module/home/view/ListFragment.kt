@@ -22,11 +22,6 @@ class ListFragment : Fragment() {
     private val viewModel: ContactViewModel by viewModel()
     private val contactAdapter = ContactAdapter()
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        viewModel.getContacts()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,7 +43,7 @@ class ListFragment : Fragment() {
         findNavController()
             .navigate(
                 ListFragmentDirections
-                    .actionListFragmentToContactBottomSheet()
+                    .actionListFragmentToContactFragment()
                     .setContact(contact)
             )
     }
@@ -58,7 +53,7 @@ class ListFragment : Fragment() {
             findNavController()
                 .navigate(
                     ListFragmentDirections
-                        .actionListFragmentToContactBottomSheet()
+                        .actionListFragmentToContactFragment()
                 )
         }
     }
