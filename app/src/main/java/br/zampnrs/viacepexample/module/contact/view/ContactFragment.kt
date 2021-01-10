@@ -15,7 +15,6 @@ import br.zampnrs.viacepexample.R
 import br.zampnrs.viacepexample.data.ContactEntity
 import br.zampnrs.viacepexample.databinding.FragmentContactBinding
 import br.zampnrs.viacepexample.module.home.viewmodel.ContactViewModel
-import br.zampnrs.viacepexample.util.equalsTo
 import br.zampnrs.viacepexample.util.showToast
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
@@ -43,7 +42,7 @@ class ContactFragment : Fragment() {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (p0?.length == 8 && args.contact == null) {
+                    if (p0?.length == 8 && p0.toString() != args.contact?.cep) {
                         binding.progressBar.visibility = View.VISIBLE
                          viewModel.loadAddress(p0.toString())
                     }
@@ -60,7 +59,7 @@ class ContactFragment : Fragment() {
     private fun subscribeLiveData() {
         viewModel.mutableLiveData.observe(viewLifecycleOwner, Observer {state ->
             when (state) {
-                is ContactViewModel.ViewState.LoadAddressSuccess -> {
+                is ContactViewModel.ViewState.LoadAddressSuccess ->
                     with(state.address) {
                         binding.apply {
                             progressBar.visibility = View.GONE
@@ -69,15 +68,25 @@ class ContactFragment : Fragment() {
                             contactUfEditText.setText(uf)
                         }
                     }
-                }
+
                 is ContactViewModel.ViewState.LoadAddressError ->
                     showToast(getString(R.string.load_error))
+
                 is ContactViewModel.ViewState.InsertSuccess -> {
                     findNavController().popBackStack(R.id.listFragment, false)
                     showToast(getString(R.string.contact_insert_success))
                 }
+
                 is ContactViewModel.ViewState.InsertError ->
                     showToast(getString(R.string.insert_error))
+
+                is ContactViewModel.ViewState.UpdateSuccess -> {
+                    findNavController().popBackStack(R.id.listFragment, false)
+                    showToast(getString(R.string.contact_update_success))
+                }
+
+                is ContactViewModel.ViewState.UpdateError ->
+                    showToast(getString(R.string.contact_update_error))
             }
         })
     }
@@ -162,7 +171,7 @@ class ContactFragment : Fragment() {
         }
         buttonOk.setOnClickListener {
             ContactEntity(
-                uuid = UUID.randomUUID().toString(),
+                uuid = if (args.contact == null) UUID.randomUUID().toString() else args.contact!!.uuid,
                 name = contactNameEditText.text.toString(),
                 email = contactEmailEditText.text.toString(),
                 phone = contactPhoneEditText.text.toString(),
@@ -173,9 +182,10 @@ class ContactFragment : Fragment() {
                 city = contactCityEditText.text.toString(),
                 uf = contactUfEditText.text.toString()
             ).let { contactEntity ->
-                if (args.contact != null && contactEntity.equalsTo(args.contact!!))
-                    findNavController().navigateUp()
-                else viewModel.insertContact(contactEntity)
+                with(viewModel) {
+                    if (args.contact == null) insertContact(contactEntity)
+                    else updateContact(contactEntity)
+                }
             }
         }
     }

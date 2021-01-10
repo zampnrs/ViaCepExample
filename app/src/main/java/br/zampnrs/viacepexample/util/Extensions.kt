@@ -28,18 +28,6 @@ fun List<ContactEntity>.mapToContactClass(): List<Contact> {
     }.toList()
 }
 
-fun ContactEntity.equalsTo(contact: Contact): Boolean {
-    return (this.name == contact.name
-            && this.email == contact.email
-            && this.phone == contact.phone
-            && this.cep == contact.cep
-            && this.street == contact.street
-            && this.number == contact.number
-            && this.complement == contact.complement
-            && this.city == contact.city
-            && this.uf == contact.uf)
-}
-
 fun Contact.mapToEntity(): ContactEntity {
     return ContactEntity(
             uuid = uuid,

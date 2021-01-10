@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.zampnrs.viacepexample.R
-import br.zampnrs.viacepexample.data.ContactEntity
 import br.zampnrs.viacepexample.databinding.FragmentListBinding
 import br.zampnrs.viacepexample.model.Contact
 import br.zampnrs.viacepexample.module.home.viewmodel.ContactViewModel
@@ -25,8 +24,8 @@ class ListFragment : Fragment() {
     private val viewModel: ContactViewModel by viewModel()
     private val contactAdapter = ContactAdapter()
 
-    override fun onResume() {
-        super.onResume()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         viewModel.getContacts()
     }
@@ -102,10 +101,17 @@ class ListFragment : Fragment() {
     private fun onOptionsOpened(contact: Contact) {
         AlertDialog.Builder(requireActivity()).also {
             it.setMessage(getString(R.string.contact_options))
-                    .setPositiveButton(getString(R.string.edit)) { dialog, i ->
-                        //TODO: add functionality
+                    .setPositiveButton(getString(R.string.edit)) { dialog, _ ->
+                        dialog.dismiss()
+                        findNavController()
+                                .navigate(
+                                        ListFragmentDirections
+                                                .actionListFragmentToContactFragment()
+                                                .setContact(contact)
+                                )
                     }
-                    .setNegativeButton(getString(R.string.delete)) { dialog, i ->
+                    .setNegativeButton(getString(R.string.delete)) { dialog, _ ->
+                        dialog.dismiss()
                         viewModel.deleteContact(contact.mapToEntity())
                     }
         }.create().show()

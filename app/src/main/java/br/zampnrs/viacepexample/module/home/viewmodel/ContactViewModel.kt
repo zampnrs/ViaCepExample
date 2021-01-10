@@ -28,6 +28,8 @@ class ContactViewModel(
         object InsertError: ViewState()
         object DeleteSuccess: ViewState()
         object DeleteError: ViewState()
+        object UpdateSuccess : ViewState()
+        object UpdateError : ViewState()
     }
 
     val mutableLiveData = MutableLiveData<ViewState>()
@@ -38,6 +40,7 @@ class ContactViewModel(
                 mutableLiveData.postValue(ViewState.LoadAddressSuccess(it))
             }
         } catch (e: Exception) {
+            Log.e(TAG, e.message ?: "")
             mutableLiveData.postValue(ViewState.LoadAddressError)
         }
     }
@@ -56,11 +59,21 @@ class ContactViewModel(
 
     fun insertContact(contactEntity: ContactEntity) = Thread {
         try {
-            contactDao.insertAll(contactEntity)
+            contactDao.insert(contactEntity)
             mutableLiveData.postValue(ViewState.InsertSuccess)
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "")
             mutableLiveData.postValue(ViewState.InsertError)
+        }
+    }.start()
+
+    fun updateContact(contactEntity: ContactEntity) = Thread {
+        try {
+            contactDao.update(contactEntity)
+            mutableLiveData.postValue(ViewState.UpdateSuccess)
+        } catch (e: Exception) {
+            Log.e(TAG, e.message ?: "")
+            mutableLiveData.postValue(ViewState.UpdateError)
         }
     }.start()
 

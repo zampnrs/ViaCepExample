@@ -1,9 +1,6 @@
 package br.zampnrs.viacepexample.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface ContactDao {
@@ -12,8 +9,11 @@ interface ContactDao {
     fun getAll(): List<ContactEntity>
 
     @Insert
-    fun insertAll(vararg contacts: ContactEntity)
+    fun insert(vararg contacts: ContactEntity)
 
     @Delete
     fun delete(contact: ContactEntity)
+
+    @Update
+    fun update(contact: ContactEntity)
 }
