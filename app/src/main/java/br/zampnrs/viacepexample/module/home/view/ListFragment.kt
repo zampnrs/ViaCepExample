@@ -24,8 +24,8 @@ class ListFragment : Fragment() {
     private val viewModel: ContactViewModel by viewModel()
     private val contactAdapter = ContactAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onResume() {
+        super.onResume()
 
         viewModel.getContacts()
     }
